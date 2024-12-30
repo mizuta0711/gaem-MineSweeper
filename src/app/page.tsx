@@ -139,22 +139,41 @@ export default function Home() {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 justify-items-center">
       <Head>
         <title>マインスイーパー</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1 className="text-4xl font-bold mb-4">マインスイーパー</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">マインスイーパー</h1>
 
-      <div className="mb-4">
+      <div className="flex items-center justify-center mb-4">
+        {/* 遊び方ボタン */}
         <button
           onClick={() => setShowInstructions(!showInstructions)}
-          className="mb-2 p-2 bg-green-500 text-white rounded"
+          className="ml-2 p-2 bg-blue-500 text-white rounded-md"
         >
           {showInstructions ? '遊び方を隠す' : '遊び方を見る'}
         </button>
 
+        <select
+          value={difficulty}
+          onChange={(e) => setDifficulty(e.target.value as Difficulty)}
+          className="ml-2 p-2 rounded-md ml-2"
+        >
+          <option value="easy">初級</option>
+          <option value="medium">中級</option>
+          <option value="hard">上級</option>
+        </select>
+        <button
+          onClick={startNewGame}
+          className="ml-2 p-2 bg-blue-500 text-white rounded-md ml-2"
+        >
+          新しいゲーム
+        </button>
+      </div>
+
+      <div className="mb-4">
         {showInstructions && (
           <div className="p-4 border rounded bg-gray-100">
             <h2 className="text-xl font-bold mb-2">遊び方</h2>
@@ -171,24 +190,6 @@ export default function Home() {
             <p>セルを長押しすると、そのセルにフラグを立てて地雷の可能性を示すことができます。</p>
           </div>
         )}
-      </div>
-
-      <div className="mb-4">
-        <select
-          value={difficulty}
-          onChange={(e) => setDifficulty(e.target.value as Difficulty)}
-          className="p-2 border rounded"
-        >
-          <option value="easy">初級</option>
-          <option value="medium">中級</option>
-          <option value="hard">上級</option>
-        </select>
-        <button
-          onClick={startNewGame}
-          className="ml-2 p-2 bg-blue-500 text-white rounded"
-        >
-          新しいゲーム
-        </button>
       </div>
 
       {gameManager && (
