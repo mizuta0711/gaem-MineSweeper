@@ -192,7 +192,8 @@ export default function Home() {
       </div>
 
       <div className="grid gap-1" style={{
-        gridTemplateColumns: `repeat(${DIFFICULTY_SETTINGS[difficulty].cols}, minmax(0, 1fr))`
+        gridTemplateColumns: `repeat(${DIFFICULTY_SETTINGS[difficulty].cols}, minmax(0, 1fr))`,
+        width: DIFFICULTY_SETTINGS[difficulty].cols * 35,
       }}>
         {board.map((row, rowIndex) =>
           row.map((cell, colIndex) => (
