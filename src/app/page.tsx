@@ -14,6 +14,7 @@ export default function Home() {
   const [win, setWin] = useState(false)
   const [difficulty, setDifficulty] = useState<Difficulty>('easy')
   const [forceUpdateFlag, setForceUpdateFlag] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const forceUpdate = () => setForceUpdateFlag(!forceUpdateFlag);
 
@@ -54,6 +55,25 @@ export default function Home() {
       <h1 className="text-4xl font-bold mb-4">マインスイーパー</h1>
 
       <div className="mb-4">
+        <button
+          onClick={() => setShowInstructions(!showInstructions)}
+          className="mb-2 p-2 bg-green-500 text-white rounded"
+        >
+          {showInstructions ? '遊び方を隠す' : '遊び方を見る'}
+        </button>
+
+        {showInstructions && (
+          <div className="p-4 border rounded bg-gray-100">
+            <h2 className="text-xl font-bold mb-2">遊び方</h2>
+            <p>・地雷を避けて全てのセルを開示すると勝利です。</p>
+            <p>・セルを左クリックすると開示されます。</p>
+            <p>・右クリックでフラグを立てて地雷をマークできます。</p>
+            <p>・難易度を選択して新しいゲームを開始できます。</p>
+          </div>
+        )}
+      </div>
+
+      <div className="mb-4">
         <select
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value as Difficulty)}
@@ -88,23 +108,22 @@ export default function Home() {
                   e.preventDefault()
                   handleRightClick(rowIndex, colIndex)
                 }}
-                className={`w-8 h-8 border ${
-                  cell.isRevealed
+                className={`w-8 h-8 border ${cell.isRevealed
                     ? cell.isMine
                       ? 'bg-red-500'
                       : 'bg-gray-200'
                     : 'bg-gray-300'
-                }`}
+                  }`}
               >
                 {cell.isRevealed
                   ? cell.isMine
                     ? '💣'
                     : cell.neighborMines > 0
-                    ? cell.neighborMines
-                    : ''
+                      ? cell.neighborMines
+                      : ''
                   : cell.isFlagged
-                  ? '🚩'
-                  : ''}
+                    ? '🚩'
+                    : ''}
               </button>
             ))
           )}
