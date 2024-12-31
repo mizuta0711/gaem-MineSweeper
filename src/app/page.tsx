@@ -139,7 +139,7 @@ export default function Home() {
     // 右クリックのデフォルト動作を無効化
     event.preventDefault()
 
-    //    handleCellAction(row, col, true)
+    handleCellAction(row, col, true)
   }
 
   /**
