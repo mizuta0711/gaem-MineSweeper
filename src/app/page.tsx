@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import { GameManager, Difficulty } from './GameManager'
+import { GameManager } from './GameManager'
+import { GameDifficulty } from './types'
 
 /**
  * マインスイーパーゲームのメインコンポーネント
@@ -32,9 +33,9 @@ export default function Home() {
   /**
    * ゲームの難易度を管理するフラグ。
    * 初期値は'easy'（初級）です。
-   * @type {Difficulty}
+   * @type {GameDifficulty}
    */
-  const [difficulty, setDifficulty] = useState<Difficulty>('easy')
+  const [difficulty, setDifficulty] = useState<GameDifficulty>('easy')
 
   /**
    * 強制的にコンポーネントを再レンダリングするためのフラグ。
@@ -129,6 +130,19 @@ export default function Home() {
   }
 
   /**
+   * セルを右クリックした際の処理
+   * @param {number} row 行番号
+   * @param {number} col 列番号
+   * @param {React.MouseEvent<HTMLButtonElement>} event イベントオブジェクト
+   */
+  const onRightClick = (row: number, col: number, event: React.MouseEvent<HTMLButtonElement>) => {
+    // 右クリックのデフォルト動作を無効化
+    event.preventDefault()
+
+    //    handleCellAction(row, col, true)
+  }
+
+  /**
    * ゲームを新しく開始する処理
    * 現在の難易度でゲームを再初期化します。
    */
@@ -158,7 +172,7 @@ export default function Home() {
 
         <select
           value={difficulty}
-          onChange={(e) => setDifficulty(e.target.value as Difficulty)}
+          onChange={(e) => setDifficulty(e.target.value as GameDifficulty)}
           className="ml-2 p-2 rounded-md ml-2"
         >
           <option value="easy">初級</option>
@@ -204,12 +218,15 @@ export default function Home() {
             row.map((cell, colIndex) => (
               <button
                 key={`${rowIndex}-${colIndex}`}
-                onMouseDown={() => handlePressStart(rowIndex, colIndex)}
-                onMouseUp={() => handlePressEnd(rowIndex, colIndex)}
                 onTouchStart={() => handlePressStart(rowIndex, colIndex)}
                 onTouchEnd={() => handlePressEnd(rowIndex, colIndex)}
                 onTouchCancel={() => handlePressEnd(rowIndex, colIndex)}
-                onContextMenu={(e) => e.preventDefault()}
+                onClick={() => handleCellAction(rowIndex, colIndex, false)}
+                onContextMenu={(e) => onRightClick(rowIndex, colIndex, e)}
+                style={{
+                  WebkitTouchCallout: 'none', // 長押し時のメニュー表示を無効化 (iOS Safari)
+                  WebkitUserSelect: 'none', // テキスト選択無効化 (Safari)
+                }}
                 className={`w-8 h-8 border ${cell.isRevealed
                   ? cell.isMine
                     ? 'bg-red-500'

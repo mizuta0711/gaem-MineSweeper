@@ -1,3 +1,5 @@
+import { GameDifficulty } from './types'
+
 /**
  * セルの状態を表す型
  * @typedef {Object} CellState
@@ -14,14 +16,8 @@ type CellState = {
 }
 
 /**
- * ゲームの難易度を表す型
- * @typedef {'easy' | 'medium' | 'hard'} Difficulty
- */
-export type Difficulty = 'easy' | 'medium' | 'hard'
-
-/**
  * 難易度に応じたゲーム設定
- * @type {Object.<Difficulty, {rows: number, cols: number, mines: number}>}
+ * @type {Object.<GameDifficulty, {rows: number, cols: number, mines: number}>}
  */
 const DIFFICULTY_SETTINGS = {
     easy: { rows: 9, cols: 9, mines: 10 },
@@ -38,7 +34,7 @@ export class GameManager {
     cols: number
     mines: number
 
-    constructor(difficulty: Difficulty) {
+    constructor(difficulty: GameDifficulty) {
         const { rows, cols, mines } = DIFFICULTY_SETTINGS[difficulty]
         this.rows = rows
         this.cols = cols
